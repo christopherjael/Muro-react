@@ -12,4 +12,6 @@ Este es el proyecto final de la materia de Desarrollo Web impartida por el maest
 
 ## Preview
 
-![](muestra-muro.mp4)
+
+https://user-images.githubusercontent.com/35937496/207405546-eb99d38b-fea0-4e38-8c92-bc3d988f4292.mp4
+
