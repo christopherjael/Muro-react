@@ -17,6 +17,23 @@ const getAllUsers = async (req, res, next) => {
   res.status(200).json({ status: 'ok', data });
 };
 
+const getUser = async (req, res, next) => {
+  const { doc } = req.params;
+  const userRef = await db.collection('users').doc(doc).get();
+
+  const data = {
+    id: userRef.id,
+    username: userRef.data().username,
+    name: userRef.data().name,
+    lastName: userRef.data().lastname,
+    password: userRef.data().password,
+    createAt: userRef.data().createdat._seconds,
+    updateAt: userRef.data().updatedat._seconds,
+  };
+
+  res.status(200).json({ status: 'ok', data });
+};
+
 const createUsers = async (req, res, next) => {
   const { username, name, lastname, password } = req.body;
 
@@ -62,4 +79,10 @@ const deleteUsers = async (req, res, next) => {
   });
 };
 
-module.exports = { getAllUsers, createUsers, updateUsers, deleteUsers };
+module.exports = {
+  getAllUsers,
+  createUsers,
+  updateUsers,
+  deleteUsers,
+  getUser,
+};

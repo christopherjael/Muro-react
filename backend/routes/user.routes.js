@@ -7,11 +7,14 @@ const {
   createUsers,
   deleteUsers,
   updateUsers,
+  getUser,
 } = require('./../controllers/user.controlle');
 
 const router = express.Router();
 
 router.get('/', getAllUsers);
+
+router.get('/:doc', getUser);
 
 router.post(
   '/',

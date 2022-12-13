@@ -1,5 +1,6 @@
 const db = require('./../firebase/firebase');
 const { Timestamp } = require('firebase-admin/firestore');
+const { validateToken } = require('./../helpers/jwt');
 
 const getAllPosts = async (req, res, next) => {
   const postRef = await db.collection('posts').get();
@@ -17,12 +18,25 @@ const getAllPosts = async (req, res, next) => {
 };
 
 const createPosts = async (req, res, next) => {
-  const { title, content, postedby } = req.body;
+  const { title, content } = req.body;
+
+  const { token } = req.headers;
+
+  if (!token) {
+    return res
+      .status(401)
+      .json({ status: 'Unauthorized', msg: 'Token is required' });
+  }
+
+  const userID = validateToken(token).payload;
+  const user = await db.collection('users').doc(userID.toString()).get();
+
+  console.log(user.data());
 
   await db.collection('posts').add({
     title,
     content,
-    postedby,
+    postedby: user.data().username,
     createdat: Timestamp.now(),
     updatedat: Timestamp.now(),
   });
